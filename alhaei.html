@@ -133,7 +133,6 @@ label{display:block;margin-top:10px;font-size:15px;font-weight:bold;color:#28546
 let customers = JSON.parse(localStorage.getItem('workshopCustomers')) || [];
 let currentCustomerId = null;
 let editingPartIndex = null;
-let customerListFiltered = [];
 
 // ===== ذخیره =====
 function saveData(){
@@ -194,8 +193,6 @@ function renderMain(){
 function openCustomerList(){
     document.getElementById('mainPage').classList.add('hidden');
     document.getElementById('customerListPage').classList.remove('hidden');
-    document.getElementById('customerPage').classList.add('hidden');
-    document.getElementById('statsPage').classList.add('hidden');
     renderCustomerList();
 }
 
@@ -207,8 +204,7 @@ function closeCustomerList(){
 function renderCustomerList(){
     const container = document.getElementById('customerListContainer');
     container.innerHTML = '';
-    customerListFiltered = [...customers];
-    customerListFiltered.forEach((c, idx) => {
+    customers.forEach((c, idx) => {
         let debt = c.parts.reduce((s,p) => s + (!p.paid ? Number(p.price) || 0 : 0), 0);
         const div = document.createElement('div');
         div.className = 'card';
@@ -225,8 +221,8 @@ function renderCustomerList(){
         `;
         container.appendChild(div);
     });
-    if(!customerListFiltered.length){
-        container.innerHTML = `<div class="card"><div style="text-align:center;font-size:16px;color:#587485;padding:10px;">مشتری‌ای یافت نشد.</div></div>`;
+    if(!customers.length){
+        container.innerHTML = `<div class="card"><div style="text-align:center;font-size:16px;color:#587485;padding:10px;">مشتری‌ای ثبت نشده است.</div></div>`;
     }
 }
 
@@ -291,7 +287,6 @@ function openCustomer(index){
     document.getElementById('customerListPage').classList.add('hidden');
     document.getElementById('customerPage').classList.remove('hidden');
     renderCustomer();
-    // ذخیره state برای کلید برگشت
     history.pushState({ page: 'customer' }, '');
 }
 
@@ -566,8 +561,6 @@ function showStats(){
 function closeStats(){
     document.getElementById('statsPage').classList.add('hidden');
     document.getElementById('mainPage').classList.remove('hidden');
-    // به‌روزرسانی state برای کلید برگشت
-    history.replaceState({ page: 'main' }, '');
 }
 
 // ===== خروجی/ورودی =====
@@ -607,12 +600,11 @@ function closeModal(){ document.getElementById('modalOverlay').style.display = '
 
 document.getElementById('modalOverlay').addEventListener('click', function(e){ if(e.target === this) closeModal(); });
 
-// ===== کلید برگشت گوشی (نسخه کامل) =====
+// ===== کلید برگشت گوشی (نسخه کامل و درست) =====
 window.addEventListener('popstate', function(e) {
     const modal = document.getElementById('modalOverlay');
     if (modal.style.display === 'flex') {
         closeModal();
-        // وقتی مودال بسته شد، state رو به حالت قبل برمی‌گردونیم
         return;
     }
 
@@ -634,7 +626,6 @@ window.addEventListener('popstate', function(e) {
     }
 });
 
-// تنظیم state اولیه
 window.addEventListener('load', function() {
     history.replaceState({ page: 'main' }, '');
     renderMain();
