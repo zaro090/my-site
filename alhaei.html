@@ -1,1 +1,748 @@
-[کد کامل رو اینجا بذار]
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#2878b9">
+<title>کارگاه قطعه‌شویی</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+    min-height:100%;
+}
+
+body{
+    font-family:Tahoma,"Segoe UI",sans-serif;
+    color:#173247;
+    background:
+        radial-gradient(circle at 20% 10%,rgba(255,255,255,.55),transparent 30%),
+        linear-gradient(145deg,#7db5d8 0%,#397eaf 45%,#1e5684 100%);
+    min-height:100vh;
+    padding:12px;
+    touch-action:manipulation;
+}
+
+.window{
+    width:100%;
+    max-width:500px;
+    min-height:calc(100vh - 24px);
+    margin:auto;
+    background:rgba(235,245,251,.72);
+    border:1px solid rgba(255,255,255,.9);
+    border-radius:9px;
+    box-shadow:
+        0 10px 30px rgba(0,30,60,.35),
+        inset 0 1px rgba(255,255,255,.95);
+    overflow:hidden;
+    backdrop-filter:blur(7px);
+    -webkit-backdrop-filter:blur(7px);
+}
+
+.title-bar{
+    min-height:48px;
+    padding:7px 10px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(255,255,255,.58) 0%,
+            rgba(255,255,255,.18) 16%,
+            rgba(38,125,190,.85) 48%,
+            rgba(20,91,148,.95) 100%
+        );
+    border-bottom:1px solid rgba(0,55,100,.6);
+    text-shadow:0 1px 2px rgba(0,0,0,.55);
+    box-shadow:inset 0 1px rgba(255,255,255,.85),inset 0 -1px rgba(255,255,255,.15);
+}
+
+.title-name{
+    display:flex;
+    align-items:center;
+    gap:7px;
+}
+
+.total-debt{
+    background:rgba(255,255,255,.20);
+    border:1px solid rgba(255,255,255,.6);
+    border-radius:14px;
+    padding:4px 10px;
+    font-size:12px;
+    white-space:nowrap;
+    box-shadow:inset 0 1px rgba(255,255,255,.4),0 1px 2px rgba(0,0,0,.2);
+}
+
+.content{
+    padding:12px;
+}
+
+.btn{
+    appearance:none;
+    -webkit-appearance:none;
+    border:1px solid #8aaabd;
+    border-radius:5px;
+    min-height:42px;
+    padding:8px 14px;
+    font-family:inherit;
+    font-size:14px;
+    font-weight:bold;
+    color:#16384f;
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(255,255,255,.92),
+            rgba(240,248,252,.78) 48%,
+            rgba(205,225,237,.9)
+        );
+    box-shadow:inset 0 1px rgba(255,255,255,1),0 1px 2px rgba(0,40,70,.18);
+    cursor:pointer;
+    touch-action:manipulation;
+    transition:transform .06s,filter .08s;
+}
+
+.btn:active{
+    transform:translateY(1px);
+    filter:brightness(.93);
+    box-shadow:inset 0 2px 4px rgba(0,50,90,.18);
+}
+
+.btn-main{
+    width:100%;
+    color:white;
+    border-color:#145b8d;
+    background:
+        linear-gradient(
+            to bottom,
+            #65b3e8 0%,
+            #3188c3 45%,
+            #17679d 100%
+        );
+    text-shadow:0 1px 2px rgba(0,0,0,.45);
+    box-shadow:inset 0 1px rgba(255,255,255,.75),inset 0 -1px rgba(0,50,90,.35),0 2px 4px rgba(0,40,70,.22);
+}
+
+.btn-green{
+    color:#164a28;
+    background:
+        linear-gradient(
+            to bottom,
+            #eaffed,
+            #bce8c5 50%,
+            #92cf9e
+        );
+    border-color:#76a982;
+}
+
+.btn-danger{
+    color:#5d2630;
+    background:
+        linear-gradient(
+            to bottom,
+            #fff,
+            #f0dadd 50%,
+            #dfb9bf
+        );
+    border-color:#b9878e;
+}
+
+.btn-small{
+    min-height:34px;
+    padding:6px 10px;
+    font-size:12px;
+}
+
+.full{
+    width:100%;
+}
+
+.card{
+    margin-top:10px;
+    padding:11px;
+    background:rgba(255,255,255,.67);
+    border:1px solid rgba(126,164,186,.75);
+    border-radius:7px;
+    box-shadow:inset 0 1px rgba(255,255,255,.95),0 2px 5px rgba(0,40,70,.14);
+    backdrop-filter:blur(3px);
+    -webkit-backdrop-filter:blur(3px);
+}
+
+.card-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+}
+
+.name{
+    font-size:16px;
+    font-weight:bold;
+    color:#173c56;
+}
+
+.debt-sum{
+    font-size:12px;
+    font-weight:bold;
+    color:#174b6d;
+    background:rgba(184,224,245,.75);
+    border:1px solid #83b4ce;
+    border-radius:12px;
+    padding:4px 9px;
+    white-space:nowrap;
+}
+
+input,textarea,select{
+    display:block;
+    width:100%;
+    margin:7px 0;
+    padding:10px;
+    border:1px solid #8ba7b8;
+    border-radius:5px;
+    background:rgba(255,255,255,.9);
+    color:#18374b;
+    font-family:inherit;
+    font-size:14px;
+    outline:none;
+    box-shadow:inset 0 1px 3px rgba(0,50,80,.12);
+}
+
+input:focus,textarea:focus,select:focus{
+    border-color:#3186ba;
+    box-shadow:0 0 0 2px rgba(49,134,186,.18),inset 0 1px 3px rgba(0,50,80,.1);
+}
+
+.hidden{
+    display:none!important;
+}
+
+.modal-overlay{
+    position:fixed;
+    inset:0;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:14px;
+    background:rgba(5,35,55,.38);
+    z-index:1000;
+}
+
+.modal{
+    width:100%;
+    max-width:430px;
+    max-height:90vh;
+    overflow-y:auto;
+    background:rgba(235,245,251,.96);
+    border:1px solid white;
+    border-radius:8px;
+    box-shadow:0 15px 45px rgba(0,20,40,.45),inset 0 1px rgba(255,255,255,1);
+    overflow:hidden;
+}
+
+.modal-body{
+    padding:12px;
+}
+
+.modal-title{
+    min-height:43px;
+}
+
+.flex-row{
+    display:flex;
+    gap:7px;
+    margin-top:7px;
+}
+
+.flex-row .btn{
+    flex:1;
+}
+
+.footer{
+    text-align:center;
+    margin-top:15px;
+    padding-top:9px;
+    border-top:1px solid rgba(100,130,145,.4);
+    font-size:10px;
+    color:#526d7b;
+}
+
+.footer span{
+    color:#176895;
+    font-weight:bold;
+}
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:18px;
+    transform:translateX(-50%);
+    display:none;
+    max-width:90%;
+    padding:10px 16px;
+    background:rgba(245,250,253,.96);
+    border:1px solid #8caebe;
+    border-radius:6px;
+    color:#17384d;
+    font-size:12px;
+    font-weight:bold;
+    box-shadow:0 5px 20px rgba(0,30,50,.3);
+    z-index:2000;
+}
+
+@media(max-width:380px){
+    body{padding:7px;}
+    .window{min-height:calc(100vh - 14px);}
+    .content{padding:9px;}
+    .title-bar{min-height:44px;font-size:14px;}
+    .name{font-size:14px;}
+    .btn{font-size:12px;min-height:40px;}
+}
+</style>
+</head>
+<body>
+
+<div class="window">
+
+    <div class="title-bar">
+        <div class="title-name">
+            <span>⚙️</span>
+            <span>کارگاه قطعه‌شویی</span>
+        </div>
+        <div class="total-debt" id="totalDebt">۰ ریال</div>
+    </div>
+
+    <div class="content">
+
+        <div id="mainPage">
+            <button class="btn btn-main full" onclick="showAddCustomer()">➕ مشتری جدید</button>
+            <div id="customersList"></div>
+            <div class="flex-row">
+                <button class="btn btn-small" onclick="exportData()">📤 خروجی JSON</button>
+                <button class="btn btn-small" onclick="document.getElementById('importInput').click()">📥 ورودی JSON</button>
+                <input type="file" id="importInput" accept=".json" style="display:none" onchange="importData(event)">
+                <button class="btn btn-small" onclick="saveToCloud()">☁️ ذخیره ابر</button>
+                <button class="btn btn-small" onclick="loadFromCloud()">☁️ دریافت ابر</button>
+            </div>
+            <button class="btn btn-small" style="margin-top:8px;" onclick="showStats()">📊 آمار و گزارشات</button>
+        </div>
+
+        <div id="customerPage" class="hidden">
+            <button class="back-btn" onclick="goBack()">← بازگشت</button>
+            <div id="customerInfo"></div>
+            <button class="btn btn-main full" onclick="showAddPart()">➕ ثبت قطعه</button>
+            <div id="partsList"></div>
+            <div class="flex-row">
+                <button class="btn btn-small" onclick="printInvoice()">🖨 فاکتور</button>
+                <button class="btn btn-small" onclick="saveAsImage()">🖼 تصویر</button>
+            </div>
+        </div>
+
+        <div id="statsPage" class="hidden">
+            <button class="back-btn" onclick="closeStats()">← بازگشت</button>
+            <div id="statsContent"></div>
+        </div>
+
+        <div class="modal-overlay" id="modalOverlay">
+            <div class="modal" id="modalContent"></div>
+        </div>
+
+        <div class="footer">ساخته شده توسط <span>mohammed</span> · 09169044453</div>
+
+    </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+// ===== داده‌ها =====
+let customers = JSON.parse(localStorage.getItem('workshopCustomers')) || [];
+let currentCustomerId = null;
+let editingPartIndex = null;
+
+// ===== ذخیره‌سازی =====
+function saveData(){
+    localStorage.setItem('workshopCustomers', JSON.stringify(customers));
+    updateTotalDebt();
+}
+
+function updateTotalDebt(){
+    let total = 0;
+    customers.forEach(c => {
+        c.parts.forEach(p => {
+            if(!p.paid) total += Number(p.price);
+        });
+    });
+    document.getElementById('totalDebt').textContent = total.toLocaleString('fa-IR') + ' ریال';
+}
+
+// ===== نمایش پیام =====
+function showToast(msg){
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.display = 'block';
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => { t.style.display = 'none'; }, 2300);
+}
+
+// ===== صفحه اصلی =====
+function renderMain(){
+    const list = document.getElementById('customersList');
+    list.innerHTML = '';
+    customers.forEach((c, idx) => {
+        let debt = c.parts.reduce((s, p) => s + (!p.paid ? Number(p.price) : 0), 0);
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.innerHTML = `
+            <div class="card-header">
+                <span class="name">👤 ${c.name}</span>
+                <span class="debt-sum">${debt.toLocaleString('fa-IR')} ریال</span>
+            </div>
+            <div style="font-size:12px;color:#486578;">${c.phone}</div>
+            <div class="flex-row" style="margin-top:8px;">
+                <button class="btn btn-small btn-main" onclick="openCustomer(${idx})">📂 باز کردن</button>
+                <button class="btn btn-small btn-danger" onclick="deleteCustomer(${idx})">🗑</button>
+            </div>
+        `;
+        list.appendChild(div);
+    });
+    updateTotalDebt();
+}
+
+// ===== صفحه مشتری =====
+function openCustomer(index){
+    currentCustomerId = index;
+    document.getElementById('mainPage').classList.add('hidden');
+    document.getElementById('customerPage').classList.remove('hidden');
+    renderCustomer();
+    history.pushState({ page: 'customer' }, '');
+}
+
+function renderCustomer(){
+    const c = customers[currentCustomerId];
+    let debt = c.parts.reduce((s, p) => s + (!p.paid ? Number(p.price) : 0), 0);
+    document.getElementById('customerInfo').innerHTML = `
+        <div class="card">
+            <div class="card-header">
+                <span class="name">👤 ${c.name}</span>
+                <span class="debt-sum">${debt.toLocaleString('fa-IR')} ریال</span>
+            </div>
+            <div style="font-size:12px;color:#486578;">📞 ${c.phone}</div>
+        </div>
+    `;
+    renderParts();
+}
+
+function renderParts(){
+    const c = customers[currentCustomerId];
+    const list = document.getElementById('partsList');
+    list.innerHTML = '';
+    c.parts.forEach((p, idx) => {
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.innerHTML = `
+            <div class="card-header">
+                <span class="name">${p.desc || 'بدون توضیح'}</span>
+                <span class="debt-sum">${Number(p.price).toLocaleString('fa-IR')} ریال</span>
+            </div>
+            <div style="font-size:12px;color:#486578;">
+                ارسال: ${p.sent ? '✅' : '❌'} · پرداخت: ${p.paid ? '✅' : '❌'}
+            </div>
+            <div class="flex-row" style="margin-top:8px;">
+                <button class="btn btn-small btn-green" onclick="togglePaid(${idx})">${p.paid ? '↩️ لغو پرداخت' : '✅ پرداخت شد'}</button>
+                <button class="btn btn-small" onclick="editPart(${idx})">✏️</button>
+                <button class="btn btn-small btn-danger" onclick="deletePart(${idx})">🗑</button>
+            </div>
+        `;
+        list.appendChild(div);
+    });
+}
+
+// ===== مدیریت قطعات =====
+function showAddPart(){
+    editingPartIndex = null;
+    const modal = document.getElementById('modalContent');
+    modal.innerHTML = `
+        <div class="title-bar modal-title"><span>🔧 ثبت قطعه</span></div>
+        <div class="modal-body">
+            <input id="partDesc" placeholder="توضیح قطعه">
+            <input id="partPrice" type="number" placeholder="مبلغ (ریال)">
+            <select id="partSent">
+                <option value="false">❌ ارسال نشده</option>
+                <option value="true">✅ ارسال شده</option>
+            </select>
+            <select id="partPaid">
+                <option value="false">❌ پرداخت نشده</option>
+                <option value="true">✅ پرداخت شده</option>
+            </select>
+            <div class="flex-row">
+                <button class="btn btn-main" onclick="savePart()">💾 ذخیره</button>
+                <button class="btn" onclick="closeModal()">لغو</button>
+            </div>
+        </div>
+    `;
+    openModal();
+}
+
+function savePart(){
+    const c = customers[currentCustomerId];
+    const desc = document.getElementById('partDesc').value.trim() || 'بدون توضیح';
+    const price = parseInt(document.getElementById('partPrice').value) || 0;
+    const sent = document.getElementById('partSent').value === 'true';
+    const paid = document.getElementById('partPaid').value === 'true';
+    if(!price){ showToast('❌ مبلغ را وارد کنید'); return; }
+    if(editingPartIndex !== null){
+        c.parts[editingPartIndex] = { desc, price, sent, paid };
+        editingPartIndex = null;
+    } else {
+        c.parts.push({ desc, price, sent, paid });
+    }
+    saveData();
+    closeModal();
+    renderParts();
+    renderMain();
+    showToast('✅ ثبت شد');
+}
+
+function editPart(idx){
+    editingPartIndex = idx;
+    const p = customers[currentCustomerId].parts[idx];
+    const modal = document.getElementById('modalContent');
+    modal.innerHTML = `
+        <div class="title-bar modal-title"><span>✏️ ویرایش قطعه</span></div>
+        <div class="modal-body">
+            <input id="partDesc" value="${p.desc || ''}" placeholder="توضیح قطعه">
+            <input id="partPrice" type="number" value="${p.price || 0}" placeholder="مبلغ (ریال)">
+            <select id="partSent">
+                <option value="false" ${!p.sent ? 'selected' : ''}>❌ ارسال نشده</option>
+                <option value="true" ${p.sent ? 'selected' : ''}>✅ ارسال شده</option>
+            </select>
+            <select id="partPaid">
+                <option value="false" ${!p.paid ? 'selected' : ''}>❌ پرداخت نشده</option>
+                <option value="true" ${p.paid ? 'selected' : ''}>✅ پرداخت شده</option>
+            </select>
+            <div class="flex-row">
+                <button class="btn btn-main" onclick="savePart()">💾 ذخیره</button>
+                <button class="btn" onclick="closeModal()">لغو</button>
+            </div>
+        </div>
+    `;
+    openModal();
+}
+
+function deletePart(idx){
+    if(!confirm('حذف شود؟')) return;
+    customers[currentCustomerId].parts.splice(idx, 1);
+    saveData();
+    renderParts();
+    renderMain();
+    showToast('🗑 حذف شد');
+}
+
+function togglePaid(idx){
+    const c = customers[currentCustomerId];
+    c.parts[idx].paid = !c.parts[idx].paid;
+    saveData();
+    renderParts();
+    renderMain();
+}
+
+// ===== مدیریت مشتریان =====
+function showAddCustomer(){
+    const modal = document.getElementById('modalContent');
+    modal.innerHTML = `
+        <div class="title-bar modal-title"><span>➕ مشتری جدید</span></div>
+        <div class="modal-body">
+            <input id="custName" placeholder="نام مشتری">
+            <input id="custPhone" placeholder="شماره موبایل">
+            <div class="flex-row">
+                <button class="btn btn-main" onclick="saveCustomer()">💾 ذخیره</button>
+                <button class="btn" onclick="closeModal()">لغو</button>
+            </div>
+        </div>
+    `;
+    openModal();
+}
+
+function saveCustomer(){
+    const name = document.getElementById('custName').value.trim();
+    const phone = document.getElementById('custPhone').value.trim();
+    if(!name){ showToast('❌ نام را وارد کنید'); return; }
+    customers.push({ name, phone, parts: [] });
+    saveData();
+    closeModal();
+    renderMain();
+    showToast('✅ مشتری اضافه شد');
+}
+
+function deleteCustomer(idx){
+    if(!confirm('مشتری و تمام قطعات حذف شوند؟')) return;
+    customers.splice(idx, 1);
+    saveData();
+    renderMain();
+    showToast('🗑 حذف شد');
+}
+
+// ===== فاکتور =====
+function printInvoice(){
+    const c = customers[currentCustomerId];
+    let html = `
+        <div style="direction:rtl;padding:20px;background:white;color:black;font-family:Tahoma;max-width:400px;margin:auto;">
+            <h2 style="text-align:center;">🧾 فاکتور رسمی</h2>
+            <p style="text-align:center;">مشتری: ${c.name}</p>
+            <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+                <tr style="background:#eee;"><th>#</th><th>شرح</th><th>مبلغ</th></tr>
+                ${c.parts.map((p,i) => `
+                    <tr style="border-bottom:1px solid #ddd;">
+                        <td>${i+1}</td>
+                        <td>${p.desc || 'بدون توضیح'}</td>
+                        <td>${Number(p.price).toLocaleString('fa-IR')}</td>
+                    </tr>
+                `).join('')}
+            </table>
+            <p style="text-align:left;font-weight:bold;">مجموع: ${c.parts.reduce((s,p) => s + Number(p.price), 0).toLocaleString('fa-IR')} ریال</p>
+            <p style="text-align:left;font-size:12px;color:#666;">شماره کارت: 5022291503985093<br>به نام: رضا الهائی</p>
+        </div>
+    `;
+    const win = window.open('', '_blank');
+    win.document.write(html);
+    win.document.close();
+    win.print();
+}
+
+function saveAsImage(){
+    showToast('🖼 در حال ذخیره...');
+    // این قابلیت نیاز به html2canvas داره
+}
+
+// ===== ابر =====
+async function saveToCloud(){
+    try {
+        const res = await fetch('https://api.jsonbin.io/v3/b/67c8c8e8ad19ca34f877b8e8', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Master-Key': '$2a$10$KtE9sM9WZq7n5pQrJxWXvO.gJtXhQZvY9lM8nT4rU2iK3oP5sD6fG'
+            },
+            body: JSON.stringify({ customers })
+        });
+        if(res.ok) showToast('✅ ذخیره ابر موفق');
+        else showToast('❌ خطا در ذخیره ابر');
+    } catch { showToast('❌ خطا در ارتباط'); }
+}
+
+async function loadFromCloud(){
+    try {
+        const res = await fetch('https://api.jsonbin.io/v3/b/67c8c8e8ad19ca34f877b8e8', {
+            headers: { 'X-Master-Key': '$2a$10$KtE9sM9WZq7n5pQrJxWXvO.gJtXhQZvY9lM8nT4rU2iK3oP5sD6fG' }
+        });
+        const data = await res.json();
+        if(data.record && data.record.customers){
+            customers = data.record.customers;
+            saveData();
+            renderMain();
+            showToast('✅ دریافت ابر موفق');
+        }
+    } catch { showToast('❌ خطا در دریافت ابر'); }
+}
+
+// ===== آمار =====
+function showStats(){
+    document.getElementById('mainPage').classList.add('hidden');
+    document.getElementById('statsPage').classList.remove('hidden');
+    const div = document.getElementById('statsContent');
+    let totalCustomers = customers.length;
+    let totalParts = customers.reduce((s,c) => s + c.parts.length, 0);
+    let totalDebt = customers.reduce((s,c) => s + c.parts.reduce((s2,p) => s2 + (!p.paid ? Number(p.price) : 0), 0), 0);
+    div.innerHTML = `
+        <div class="card">
+            <div class="card-header"><span class="name">📊 آمار کارگاه</span></div>
+            <div style="font-size:14px;margin-top:8px;">
+                <div>👥 تعداد مشتریان: ${totalCustomers}</div>
+                <div>🔧 تعداد قطعات: ${totalParts}</div>
+                <div>💰 مجموع بدهی: ${totalDebt.toLocaleString('fa-IR')} ریال</div>
+            </div>
+        </div>
+    `;
+}
+
+function closeStats(){
+    document.getElementById('statsPage').classList.add('hidden');
+    document.getElementById('mainPage').classList.remove('hidden');
+}
+
+// ===== خروجی/ورودی =====
+function exportData(){
+    const blob = new Blob([JSON.stringify(customers, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `workshop-${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('📤 خروجی گرفته شد');
+}
+
+function importData(event){
+    const file = event.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e){
+        try {
+            const imported = JSON.parse(e.target.result);
+            if(Array.isArray(imported)){
+                customers = imported;
+                saveData();
+                renderMain();
+                showToast('✅ اطلاعات وارد شد');
+            } else showToast('❌ فایل معتبر نیست');
+        } catch { showToast('❌ فایل معتبر نیست'); }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
+}
+
+// ===== عمومی =====
+function goBack(){
+    document.getElementById('customerPage').classList.add('hidden');
+    document.getElementById('mainPage').classList.remove('hidden');
+    renderMain();
+    history.replaceState({ page: 'main' }, '');
+}
+
+function openModal(){
+    document.getElementById('modalOverlay').style.display = 'flex';
+}
+
+function closeModal(){
+    document.getElementById('modalOverlay').style.display = 'none';
+}
+
+document.getElementById('modalOverlay').addEventListener('click', function(e){
+    if(e.target === this) closeModal();
+});
+
+window.addEventListener('popstate', function(){
+    const customerPage = document.getElementById('customerPage');
+    if(!customerPage.classList.contains('hidden')){
+        goBack();
+    }
+});
+
+window.addEventListener('load', function(){
+    history.replaceState({ page: 'main' }, '');
+    renderMain();
+});
+</script>
+
+</body>
+</html>
