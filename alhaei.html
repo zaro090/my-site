@@ -1,16 +1,625 @@
-[کد کامل اصلاح‌شده رو اینجا بذار]
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#1f6fa8">
+<title>کارگاه قطعه‌شویی الهائی</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{min-height:100%;}
+body{font-family:Tahoma,"Segoe UI",sans-serif;color:#173247;background:radial-gradient(circle at 18% 8%,rgba(255,255,255,.75),transparent 28%),radial-gradient(circle at 90% 90%,rgba(255,255,255,.16),transparent 30%),linear-gradient(145deg,#8fc9eb 0%,#438bbd 45%,#175781 100%);min-height:100vh;padding:8px;touch-action:manipulation;}
+.window{width:100%;max-width:520px;min-height:calc(100vh - 16px);margin:auto;overflow:hidden;background:rgba(235,247,255,.68);border:1px solid rgba(255,255,255,.95);border-radius:10px;box-shadow:0 12px 35px rgba(0,25,50,.38),inset 0 1px rgba(255,255,255,1);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);}
+.title-bar{min-height:64px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;color:#fff;background:linear-gradient(to bottom,rgba(255,255,255,.72) 0%,rgba(255,255,255,.28) 10%,rgba(61,145,207,.88) 40%,rgba(20,91,150,.96) 100%);border-bottom:1px solid rgba(0,55,100,.7);text-shadow:0 1px 2px rgba(0,0,0,.65);box-shadow:inset 0 1px rgba(255,255,255,.95),inset 0 -1px rgba(255,255,255,.18);}
+.title-name{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:bold;}
+.title-icon{font-size:25px;}
+.total-debt{background:rgba(255,255,255,.20);border:1px solid rgba(255,255,255,.65);border-radius:18px;padding:7px 12px;font-size:13px;white-space:nowrap;box-shadow:inset 0 1px rgba(255,255,255,.5),0 1px 3px rgba(0,0,0,.25);}
+.content{padding:14px;}
+.btn{appearance:none;-webkit-appearance:none;border:1px solid #83aabd;border-radius:9px;min-height:54px;padding:11px 15px;font-family:inherit;font-size:16px;font-weight:bold;color:#16384f;background:linear-gradient(to bottom,rgba(255,255,255,.97),rgba(239,248,253,.88) 48%,rgba(203,225,238,.95));box-shadow:inset 0 1px rgba(255,255,255,1),0 2px 5px rgba(0,40,70,.20);cursor:pointer;touch-action:manipulation;transition:transform .06s,filter .08s;}
+.btn:active{transform:translateY(2px);filter:brightness(.92);box-shadow:inset 0 2px 4px rgba(0,50,90,.20);}
+.btn-main{width:100%;color:white;border-color:#125b8c;background:linear-gradient(to bottom,#71c1f0 0%,#358ec9 45%,#16679d 100%);text-shadow:0 1px 2px rgba(0,0,0,.5);box-shadow:inset 0 1px rgba(255,255,255,.8),inset 0 -1px rgba(0,50,90,.35),0 3px 6px rgba(0,40,70,.24);}
+.btn-green{color:#164a28;background:linear-gradient(to bottom,#f2fff4,#c8eccf 48%,#96d3a1);border-color:#73a980;}
+.btn-danger{color:#612833;background:linear-gradient(to bottom,#fff,#f1dcdf 48%,#ddb8be);border-color:#b8878e;}
+.btn-small{min-height:48px;font-size:14px;padding:9px 11px;}
+.full{width:100%;}
+.card{margin-top:13px;padding:15px;background:rgba(255,255,255,.72);border:1px solid rgba(126,164,186,.78);border-radius:11px;box-shadow:inset 0 1px rgba(255,255,255,.98),0 3px 7px rgba(0,40,70,.15);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);}
+.card-header{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.name{font-size:18px;font-weight:bold;color:#173c56;}
+.debt-sum{font-size:14px;font-weight:bold;color:#174b6d;background:rgba(184,224,245,.82);border:1px solid #83b4ce;border-radius:16px;padding:6px 10px;white-space:nowrap;}
+.info{font-size:15px;color:#486578;margin-top:7px;line-height:1.8;}
+.date-box{display:inline-block;margin-top:8px;padding:6px 10px;border-radius:8px;background:rgba(218,239,250,.85);border:1px solid #9cc3d8;font-size:14px;color:#245b78;}
+input,textarea,select{display:block;width:100%;margin:10px 0;padding:14px;min-height:52px;border:1px solid #8ba7b8;border-radius:9px;background:rgba(255,255,255,.94);color:#18374b;font-family:inherit;font-size:16px;outline:none;box-shadow:inset 0 1px 4px rgba(0,50,80,.12);}
+textarea{min-height:90px;resize:vertical;}
+input:focus,textarea:focus,select:focus{border-color:#3186ba;box-shadow:0 0 0 3px rgba(49,134,186,.18),inset 0 1px 3px rgba(0,50,80,.1);}
+label{display:block;margin-top:10px;font-size:15px;font-weight:bold;color:#28546d;}
+.flex-row{display:flex;gap:10px;margin-top:10px;}
+.flex-row .btn{flex:1;}
+.back-btn{border:0;background:rgba(255,255,255,.35);color:#075d96;font-family:inherit;font-size:17px;font-weight:bold;padding:10px 13px;margin-bottom:5px;border-radius:8px;cursor:pointer;}
+.modal-overlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:15px;background:rgba(5,35,55,.48);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);z-index:1000;}
+.modal{width:100%;max-width:480px;max-height:92vh;overflow:auto;background:rgba(235,245,251,.97);border:1px solid white;border-radius:12px;box-shadow:0 15px 45px rgba(0,20,40,.5),inset 0 1px rgba(255,255,255,1);overflow:hidden;}
+.modal-body{padding:17px;}
+.modal-title{min-height:54px;}
+.footer{text-align:center;margin-top:20px;padding-top:12px;border-top:1px solid rgba(100,130,145,.4);font-size:12px;color:#526d7b;}
+.footer span{color:#176895;font-weight:bold;}
+.toast{position:fixed;left:50%;bottom:25px;transform:translateX(-50%);display:none;width:max-content;max-width:90%;padding:13px 20px;background:rgba(245,250,253,.97);border:1px solid #8caebe;border-radius:10px;color:#17384d;font-size:14px;font-weight:bold;box-shadow:0 5px 20px rgba(0,30,50,.3);z-index:2000;}
+.hidden{display:none!important;}
+.stat{margin-top:10px;padding:13px;background:rgba(224,242,251,.75);border:1px solid #9bc1d4;border-radius:9px;font-size:16px;font-weight:bold;}
+.search-box{width:100%;padding:12px;border-radius:9px;border:1px solid #83aabd;background:rgba(255,255,255,.7);font-size:16px;margin-bottom:10px;}
+@media(max-width:380px){body{padding:5px;}.window{min-height:calc(100vh - 10px);}.content{padding:10px;}.title-bar{min-height:56px;padding:9px 11px;}.title-name{font-size:16px;}.title-icon{font-size:21px;}.total-debt{font-size:11px;padding:6px 8px;}.btn{min-height:52px;font-size:15px;}.name{font-size:16px;}input,textarea,select{font-size:16px;}}
+</style>
+</head>
+<body>
+
+<div class="window">
+
+    <div class="title-bar">
+        <div class="title-name">
+            <span class="title-icon">⚙️</span>
+            <span>کارگاه قطعه‌شویی الهائی</span>
+        </div>
+        <div class="total-debt" id="totalDebt">۰ ریال</div>
+    </div>
+
+    <div class="content">
+
+        <!-- ===== صفحه اصلی ===== -->
+        <div id="mainPage">
+            <button class="btn btn-main full" onclick="showAddCustomer()">➕ مشتری جدید</button>
+            <button class="btn btn-main full" style="margin-top:8px;" onclick="openCustomerList()">📋 لیست مشتریان</button>
+
+            <div style="margin-top:12px;">
+                <input class="search-box" id="searchInput" placeholder="🔍 جستجوی مشتری..." oninput="filterCustomers()">
+            </div>
+
+            <div id="searchResults"></div>
+
+            <div class="flex-row" style="margin-top:12px;">
+                <button class="btn btn-small" onclick="exportData()">📤 خروجی</button>
+                <button class="btn btn-small" onclick="document.getElementById('importInput').click()">📥 ورود</button>
+                <input type="file" id="importInput" accept=".json" style="display:none" onchange="importData(event)">
+            </div>
+            <div class="flex-row">
+                <button class="btn btn-small" onclick="saveToCloud()">☁️ ذخیره ابر</button>
+                <button class="btn btn-small" onclick="loadFromCloud()">☁️ دریافت ابر</button>
+            </div>
+            <button class="btn btn-small full" style="margin-top:10px;" onclick="showStats()">📊 آمار و گزارشات</button>
+        </div>
+
+        <!-- ===== لیست مشتریان ===== -->
+        <div id="customerListPage" class="hidden">
+            <button class="back-btn" onclick="closeCustomerList()">← بازگشت</button>
+            <div style="margin-top:8px;">
+                <input class="search-box" id="customerListSearch" placeholder="🔍 جستجو در لیست..." oninput="filterCustomerList()">
+            </div>
+            <div id="customerListContainer"></div>
+        </div>
+
+        <!-- ===== صفحه مشتری ===== -->
+        <div id="customerPage" class="hidden">
+            <button class="back-btn" onclick="goBackFromCustomer()">← بازگشت</button>
+            <div id="customerInfo"></div>
+            <button class="btn btn-main full" onclick="showAddPart()">➕ ثبت موتور / قطعه</button>
+            <div id="partsList"></div>
+            <div class="flex-row">
+                <button class="btn btn-small" onclick="printInvoice()">🧾 فاکتور</button>
+                <button class="btn btn-small" onclick="saveAsImage()">🖼 تصویر</button>
+            </div>
+        </div>
+
+        <!-- ===== آمار ===== -->
+        <div id="statsPage" class="hidden">
+            <button class="back-btn" onclick="closeStats()">← بازگشت</button>
+            <div id="statsContent"></div>
+        </div>
+
+        <div class="modal-overlay" id="modalOverlay">
+            <div class="modal" id="modalContent"></div>
+        </div>
+
+        <div class="footer">
+            کارگاه قطعه‌شویی الهائی
+            <br>
+            <span>۰۹۳۹۴۷۱۲۴۰۸</span> · <span>۰۹۱۶۹۰۴۴۴۵۳</span>
+        </div>
+
+    </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
 <script>
-// ===== کلید برگشت گوشی (نسخه جدید) =====
-window.addEventListener('popstate', function() {
+// ===== داده‌ها =====
+let customers = JSON.parse(localStorage.getItem('workshopCustomers')) || [];
+let currentCustomerId = null;
+let editingPartIndex = null;
+let customerListFiltered = [];
+
+// ===== ذخیره =====
+function saveData(){
+    localStorage.setItem('workshopCustomers', JSON.stringify(customers));
+    updateTotalDebt();
+}
+
+function updateTotalDebt(){
+    let total = 0;
+    customers.forEach(c => {
+        if(!Array.isArray(c.parts)) c.parts = [];
+        c.parts.forEach(p => {
+            if(!p.paid) total += Number(p.price) || 0;
+        });
+    });
+    document.getElementById('totalDebt').textContent = total.toLocaleString('fa-IR') + ' ریال';
+}
+
+function showToast(msg){
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.display = 'block';
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => { t.style.display = 'none'; }, 2500);
+}
+
+// ===== تاریخ شمسی =====
+function getTodayPersian(){
+    const d = new Date();
+    return d.toLocaleDateString('fa-IR-u-ca-persian');
+}
+
+function getTodayISO(){
+    const d = new Date();
+    return d.toISOString().slice(0,10);
+}
+
+function formatDatePersian(date){
+    if(!date) return '---';
+    try{
+        const d = new Date(date + 'T00:00:00');
+        return d.toLocaleDateString('fa-IR-u-ca-persian');
+    }catch{
+        return date;
+    }
+}
+
+// ===== صفحه اصلی =====
+function renderMain(){
+    document.getElementById('mainPage').classList.remove('hidden');
+    document.getElementById('customerListPage').classList.add('hidden');
+    document.getElementById('customerPage').classList.add('hidden');
+    document.getElementById('statsPage').classList.add('hidden');
+    updateTotalDebt();
+}
+
+// ===== لیست مشتریان =====
+function openCustomerList(){
+    document.getElementById('mainPage').classList.add('hidden');
+    document.getElementById('customerListPage').classList.remove('hidden');
+    document.getElementById('customerPage').classList.add('hidden');
+    document.getElementById('statsPage').classList.add('hidden');
+    renderCustomerList();
+}
+
+function closeCustomerList(){
+    document.getElementById('customerListPage').classList.add('hidden');
+    document.getElementById('mainPage').classList.remove('hidden');
+}
+
+function renderCustomerList(){
+    const container = document.getElementById('customerListContainer');
+    container.innerHTML = '';
+    customerListFiltered = [...customers];
+    customerListFiltered.forEach((c, idx) => {
+        let debt = c.parts.reduce((s,p) => s + (!p.paid ? Number(p.price) || 0 : 0), 0);
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.innerHTML = `
+            <div class="card-header">
+                <span class="name">👤 ${escapeHTML(c.name)}</span>
+                <span class="debt-sum">${debt.toLocaleString('fa-IR')} ریال</span>
+            </div>
+            <div class="info">📞 ${escapeHTML(c.phone || 'بدون شماره')}</div>
+            <div class="flex-row">
+                <button class="btn btn-small btn-main" onclick="openCustomer(${idx})">📂 باز کردن</button>
+                <button class="btn btn-small btn-danger" onclick="deleteCustomer(${idx})">🗑 حذف</button>
+            </div>
+        `;
+        container.appendChild(div);
+    });
+    if(!customerListFiltered.length){
+        container.innerHTML = `<div class="card"><div style="text-align:center;font-size:16px;color:#587485;padding:10px;">مشتری‌ای یافت نشد.</div></div>`;
+    }
+}
+
+function filterCustomerList(){
+    const q = document.getElementById('customerListSearch').value.trim().toLowerCase();
+    const container = document.getElementById('customerListContainer');
+    container.innerHTML = '';
+    const filtered = customers.filter(c => c.name.toLowerCase().includes(q));
+    filtered.forEach((c, idx) => {
+        let debt = c.parts.reduce((s,p) => s + (!p.paid ? Number(p.price) || 0 : 0), 0);
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.innerHTML = `
+            <div class="card-header">
+                <span class="name">👤 ${escapeHTML(c.name)}</span>
+                <span class="debt-sum">${debt.toLocaleString('fa-IR')} ریال</span>
+            </div>
+            <div class="info">📞 ${escapeHTML(c.phone || 'بدون شماره')}</div>
+            <div class="flex-row">
+                <button class="btn btn-small btn-main" onclick="openCustomer(${customers.indexOf(c)})">📂 باز کردن</button>
+                <button class="btn btn-small btn-danger" onclick="deleteCustomer(${customers.indexOf(c)})">🗑 حذف</button>
+            </div>
+        `;
+        container.appendChild(div);
+    });
+    if(!filtered.length){
+        container.innerHTML = `<div class="card"><div style="text-align:center;font-size:16px;color:#587485;padding:10px;">مشتری‌ای یافت نشد.</div></div>`;
+    }
+}
+
+function filterCustomers(){
+    const q = document.getElementById('searchInput').value.trim().toLowerCase();
+    const container = document.getElementById('searchResults');
+    container.innerHTML = '';
+    if(!q){ container.innerHTML = ''; return; }
+    const filtered = customers.filter(c => c.name.toLowerCase().includes(q));
+    filtered.forEach((c, idx) => {
+        let debt = c.parts.reduce((s,p) => s + (!p.paid ? Number(p.price) || 0 : 0), 0);
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.innerHTML = `
+            <div class="card-header">
+                <span class="name">👤 ${escapeHTML(c.name)}</span>
+                <span class="debt-sum">${debt.toLocaleString('fa-IR')} ریال</span>
+            </div>
+            <div class="info">📞 ${escapeHTML(c.phone || 'بدون شماره')}</div>
+            <div class="flex-row">
+                <button class="btn btn-small btn-main" onclick="openCustomer(${customers.indexOf(c)})">📂 باز کردن</button>
+            </div>
+        `;
+        container.appendChild(div);
+    });
+    if(!filtered.length){
+        container.innerHTML = `<div class="card"><div style="text-align:center;font-size:16px;color:#587485;padding:10px;">مشتری‌ای یافت نشد.</div></div>`;
+    }
+}
+
+// ===== مشتری =====
+function openCustomer(index){
+    currentCustomerId = index;
+    document.getElementById('mainPage').classList.add('hidden');
+    document.getElementById('customerListPage').classList.add('hidden');
+    document.getElementById('customerPage').classList.remove('hidden');
+    renderCustomer();
+    // ذخیره state برای کلید برگشت
+    history.pushState({ page: 'customer' }, '');
+}
+
+function goBackFromCustomer(){
+    closeModal();
+    document.getElementById('customerPage').classList.add('hidden');
+    document.getElementById('customerListPage').classList.remove('hidden');
+    renderCustomerList();
+    history.replaceState({ page: 'list' }, '');
+}
+
+function renderCustomer(){
+    const c = customers[currentCustomerId];
+    if(!c) return;
+    let debt = c.parts.reduce((s,p) => s + (!p.paid ? Number(p.price) || 0 : 0), 0);
+    document.getElementById('customerInfo').innerHTML = `
+        <div class="card">
+            <div class="card-header">
+                <span class="name">👤 ${escapeHTML(c.name)}</span>
+                <span class="debt-sum">${debt.toLocaleString('fa-IR')} ریال</span>
+            </div>
+            <div class="info">📞 ${escapeHTML(c.phone || 'بدون شماره')}</div>
+        </div>
+    `;
+    renderParts();
+}
+
+function renderParts(){
+    const c = customers[currentCustomerId];
+    const list = document.getElementById('partsList');
+    list.innerHTML = '';
+    if(!c || !c.parts.length){
+        list.innerHTML = `<div class="card"><div style="text-align:center;font-size:16px;color:#587485;padding:10px;">هنوز موتوری ثبت نشده است.</div></div>`;
+        return;
+    }
+    c.parts.forEach((p,idx) => {
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.innerHTML = `
+            <div class="card-header">
+                <span class="name">🔧 ${escapeHTML(p.desc || 'بدون توضیح')}</span>
+                <span class="debt-sum">${Number(p.price).toLocaleString('fa-IR')} ریال</span>
+            </div>
+            <div class="date-box">📅 ورود: ${formatDatePersian(p.date)}</div>
+            <div class="info">
+                ${p.sent ? '📦 ارسال: ✅ شده' : '📦 ارسال: ❌ نشده'}
+                <br>
+                ${p.paid ? '💰 پرداخت: ✅ شده' : '💰 پرداخت: ❌ نشده'}
+            </div>
+            <div class="flex-row">
+                <button class="btn btn-small btn-green" onclick="togglePaid(${idx})">${p.paid ? '↩️ لغو پرداخت' : '✅ پرداخت شد'}</button>
+                <button class="btn btn-small" onclick="editPart(${idx})">✏️</button>
+                <button class="btn btn-small btn-danger" onclick="deletePart(${idx})">🗑</button>
+            </div>
+        `;
+        list.appendChild(div);
+    });
+}
+
+// ===== موتور =====
+function showAddPart(){
+    editingPartIndex = null;
+    const modal = document.getElementById('modalContent');
+    const todayPersian = getTodayPersian();
+    const todayISO = getTodayISO();
+    modal.innerHTML = `
+        <div class="title-bar modal-title"><span>🔧 ثبت موتور / قطعه</span></div>
+        <div class="modal-body">
+            <label>توضیح موتور یا قطعه</label>
+            <input id="partDesc" placeholder="مثلاً موتور کولر ۳۰ هزار">
+            <label>مبلغ (ریال)</label>
+            <input id="partPrice" type="number" inputmode="numeric" placeholder="مبلغ به ریال">
+            <label>تاریخ ورود موتور (شمسی)</label>
+            <input id="partDatePersian" type="text" value="${todayPersian}" placeholder="مثلاً ۱۴۰۳/۰۱/۰۱">
+            <input id="partDateISO" type="hidden" value="${todayISO}">
+            <label>وضعیت ارسال</label>
+            <select id="partSent">
+                <option value="false">❌ ارسال نشده</option>
+                <option value="true">✅ ارسال شده</option>
+            </select>
+            <label>وضعیت پرداخت</label>
+            <select id="partPaid">
+                <option value="false">❌ پرداخت نشده</option>
+                <option value="true">✅ پرداخت شده</option>
+            </select>
+            <div class="flex-row">
+                <button class="btn btn-main" onclick="savePart()">💾 ذخیره</button>
+                <button class="btn" onclick="closeModal()">لغو</button>
+            </div>
+        </div>
+    `;
+    openModal();
+}
+
+function savePart(){
+    const c = customers[currentCustomerId];
+    const desc = document.getElementById('partDesc').value.trim() || 'بدون توضیح';
+    const price = parseInt(document.getElementById('partPrice').value) || 0;
+    const datePersian = document.getElementById('partDatePersian').value.trim() || getTodayPersian();
+    const dateISO = document.getElementById('partDateISO').value || getTodayISO();
+    const sent = document.getElementById('partSent').value === 'true';
+    const paid = document.getElementById('partPaid').value === 'true';
+    if(!price){ showToast('❌ مبلغ را وارد کنید'); return; }
+    const part = { desc, price, date: dateISO, datePersian, sent, paid };
+    if(editingPartIndex !== null){ c.parts[editingPartIndex] = part; editingPartIndex = null; }
+    else { c.parts.push(part); }
+    saveData();
+    closeModal();
+    renderCustomer();
+    renderMain();
+    showToast('✅ موتور ثبت شد');
+}
+
+function editPart(idx){
+    editingPartIndex = idx;
+    const p = customers[currentCustomerId].parts[idx];
+    const modal = document.getElementById('modalContent');
+    modal.innerHTML = `
+        <div class="title-bar modal-title"><span>✏️ ویرایش موتور</span></div>
+        <div class="modal-body">
+            <label>توضیح موتور یا قطعه</label>
+            <input id="partDesc" value="${escapeAttribute(p.desc || '')}" placeholder="توضیح">
+            <label>مبلغ (ریال)</label>
+            <input id="partPrice" type="number" inputmode="numeric" value="${p.price || 0}">
+            <label>تاریخ ورود موتور (شمسی)</label>
+            <input id="partDatePersian" type="text" value="${p.datePersian || formatDatePersian(p.date)}" placeholder="مثلاً ۱۴۰۳/۰۱/۰۱">
+            <input id="partDateISO" type="hidden" value="${p.date || getTodayISO()}">
+            <label>وضعیت ارسال</label>
+            <select id="partSent">
+                <option value="false" ${!p.sent ? 'selected' : ''}>❌ ارسال نشده</option>
+                <option value="true" ${p.sent ? 'selected' : ''}>✅ ارسال شده</option>
+            </select>
+            <label>وضعیت پرداخت</label>
+            <select id="partPaid">
+                <option value="false" ${!p.paid ? 'selected' : ''}>❌ پرداخت نشده</option>
+                <option value="true" ${p.paid ? 'selected' : ''}>✅ پرداخت شده</option>
+            </select>
+            <div class="flex-row">
+                <button class="btn btn-main" onclick="savePart()">💾 ذخیره</button>
+                <button class="btn" onclick="closeModal()">لغو</button>
+            </div>
+        </div>
+    `;
+    openModal();
+}
+
+function deletePart(idx){
+    if(!confirm('این موتور و اطلاعات آن حذف شود؟')) return;
+    customers[currentCustomerId].parts.splice(idx,1);
+    saveData();
+    renderCustomer();
+    renderMain();
+    showToast('🗑 موتور حذف شد');
+}
+
+function togglePaid(idx){
+    const c = customers[currentCustomerId];
+    c.parts[idx].paid = !c.parts[idx].paid;
+    saveData();
+    renderCustomer();
+    renderMain();
+}
+
+// ===== مشتری جدید =====
+function showAddCustomer(){
+    const modal = document.getElementById('modalContent');
+    modal.innerHTML = `
+        <div class="title-bar modal-title"><span>➕ مشتری جدید</span></div>
+        <div class="modal-body">
+            <label>نام مشتری</label>
+            <input id="custName" placeholder="نام و نام خانوادگی">
+            <label>شماره موبایل</label>
+            <input id="custPhone" type="tel" inputmode="tel" placeholder="مثلاً 09123456789">
+            <div class="flex-row">
+                <button class="btn btn-main" onclick="saveCustomer()">💾 ذخیره</button>
+                <button class="btn" onclick="closeModal()">لغو</button>
+            </div>
+        </div>
+    `;
+    openModal();
+}
+
+function saveCustomer(){
+    const name = document.getElementById('custName').value.trim();
+    const phone = document.getElementById('custPhone').value.trim();
+    if(!name){ showToast('❌ نام مشتری را وارد کنید'); return; }
+    customers.push({ id: Date.now().toString(), name, phone, parts: [] });
+    saveData();
+    closeModal();
+    renderMain();
+    showToast('✅ مشتری اضافه شد');
+}
+
+function deleteCustomer(idx){
+    if(!confirm('مشتری و تمام موتورهای او حذف شوند؟')) return;
+    customers.splice(idx,1);
+    saveData();
+    renderMain();
+    renderCustomerList();
+    showToast('🗑 حذف شد');
+}
+
+// ===== فاکتور =====
+function printInvoice(){
+    const c = customers[currentCustomerId];
+    if(!c) return;
+    const total = c.parts.reduce((s,p) => s + Number(p.price || 0), 0);
+    const date = new Date().toLocaleDateString('fa-IR-u-ca-persian');
+    let rows = '';
+    c.parts.forEach((p,i) => {
+        rows += `<tr><td>${i+1}</td><td>${escapeHTML(p.desc || 'بدون توضیح')}</td><td>${p.datePersian || formatDatePersian(p.date)}</td><td>${Number(p.price).toLocaleString('fa-IR')}</td></tr>`;
+    });
+    const html = `<!DOCTYPE html><html lang="fa" dir="rtl"><head><meta charset="UTF-8"><title>فاکتور</title><style>body{direction:rtl;font-family:Tahoma;background:white;color:black;padding:20px;}.invoice{max-width:650px;margin:auto;}h1{text-align:center;margin-bottom:10px;}.info{line-height:2;margin-bottom:15px;}table{width:100%;border-collapse:collapse;}th,td{border:1px solid #aaa;padding:8px;text-align:center;}th{background:#eee;}.total{margin-top:15px;font-size:18px;font-weight:bold;}.bank{margin-top:20px;padding-top:10px;border-top:1px solid #aaa;font-size:13px;}</style></head><body><div class="invoice"><h1>🧾 فاکتور کارگاه قطعه‌شویی الهائی</h1><div class="info">مشتری: <strong>${escapeHTML(c.name)}</strong><br>شماره تماس: ${escapeHTML(c.phone || '---')}<br>تاریخ فاکتور: ${date}</div><table><tr><th>#</th><th>شرح</th><th>تاریخ ورود</th><th>مبلغ</th></tr>${rows}</table><div class="total">مجموع: ${total.toLocaleString('fa-IR')} ریال</div><div class="bank">شماره کارت: 5022291503985093<br>به نام: رضا الهائی</div></div></body></html>`;
+    const win = window.open('', '_blank');
+    if(!win){ showToast('❌ اجازه باز کردن پنجره داده نشده'); return; }
+    win.document.write(html);
+    win.document.close();
+    setTimeout(() => { win.print(); }, 500);
+}
+
+function saveAsImage(){ showToast('🖼 قابلیت ذخیره تصویر در این نسخه فعال نشده است'); }
+
+// ===== ابر =====
+async function saveToCloud(){
+    try{
+        const res = await fetch('https://api.jsonbin.io/v3/b/67c8c8e8ad19ca34f877b8e8', {
+            method:'PUT',
+            headers:{ 'Content-Type':'application/json', 'X-Master-Key':'$2a$10$KtE9sM9WZq7n5pQrJxWXvO.gJtXhQZvY9lM8nT4rU2iK3oP5sD6fG' },
+            body: JSON.stringify({ customers })
+        });
+        if(res.ok) showToast('☁️ ذخیره ابری موفق بود');
+        else showToast('❌ خطا در ذخیره ابری');
+    }catch{ showToast('❌ خطا در ارتباط با ابر'); }
+}
+
+async function loadFromCloud(){
+    try{
+        const res = await fetch('https://api.jsonbin.io/v3/b/67c8c8e8ad19ca34f877b8e8', {
+            headers:{ 'X-Master-Key':'$2a$10$KtE9sM9WZq7n5pQrJxWXvO.gJtXhQZvY9lM8nT4rU2iK3oP5sD6fG' }
+        });
+        const data = await res.json();
+        if(data.record && Array.isArray(data.record.customers)){
+            customers = data.record.customers;
+            saveData();
+            renderMain();
+            showToast('☁️ اطلاعات دریافت شد');
+        }else{ showToast('❌ اطلاعات ابری معتبر نیست'); }
+    }catch{ showToast('❌ خطا در دریافت اطلاعات'); }
+}
+
+// ===== آمار =====
+function showStats(){
+    document.getElementById('mainPage').classList.add('hidden');
+    document.getElementById('customerListPage').classList.add('hidden');
+    document.getElementById('customerPage').classList.add('hidden');
+    document.getElementById('statsPage').classList.remove('hidden');
+    let totalCustomers = customers.length;
+    let totalParts = customers.reduce((s,c) => s + c.parts.length, 0);
+    let totalDebt = customers.reduce((s,c) => s + c.parts.reduce((s2,p) => s2 + (!p.paid ? Number(p.price) || 0 : 0), 0), 0);
+    let totalIncome = customers.reduce((s,c) => s + c.parts.reduce((s2,p) => s2 + (p.paid ? Number(p.price) || 0 : 0), 0), 0);
+    document.getElementById('statsContent').innerHTML = `
+        <div class="card">
+            <div class="name">📊 آمار کارگاه</div>
+            <div class="stat">👥 مشتریان: ${totalCustomers.toLocaleString('fa-IR')}</div>
+            <div class="stat">🔧 موتور / قطعات: ${totalParts.toLocaleString('fa-IR')}</div>
+            <div class="stat">💰 مجموع بدهی: ${totalDebt.toLocaleString('fa-IR')} ریال</div>
+            <div class="stat">💵 مبالغ پرداخت‌شده: ${totalIncome.toLocaleString('fa-IR')} ریال</div>
+        </div>
+    `;
+}
+
+function closeStats(){
+    document.getElementById('statsPage').classList.add('hidden');
+    document.getElementById('mainPage').classList.remove('hidden');
+    // به‌روزرسانی state برای کلید برگشت
+    history.replaceState({ page: 'main' }, '');
+}
+
+// ===== خروجی/ورودی =====
+function exportData(){
+    const blob = new Blob([JSON.stringify(customers, null, 2)], { type:'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `workshop-${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('📤 فایل پشتیبان ساخته شد');
+}
+
+function importData(event){
+    const file = event.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e){
+        try{
+            const imported = JSON.parse(e.target.result);
+            if(!Array.isArray(imported)){ showToast('❌ فایل معتبر نیست'); return; }
+            if(!confirm('اطلاعات فعلی با فایل جدید جایگزین شود؟')) return;
+            customers = imported;
+            saveData();
+            renderMain();
+            showToast('✅ اطلاعات وارد شد');
+        }catch{ showToast('❌ فایل معتبر نیست'); }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
+}
+
+// ===== عمومی =====
+function openModal(){ document.getElementById('modalOverlay').style.display = 'flex'; }
+function closeModal(){ document.getElementById('modalOverlay').style.display = 'none'; editingPartIndex = null; }
+
+document.getElementById('modalOverlay').addEventListener('click', function(e){ if(e.target === this) closeModal(); });
+
+// ===== کلید برگشت گوشی (نسخه کامل) =====
+window.addEventListener('popstate', function(e) {
     const modal = document.getElementById('modalOverlay');
     if (modal.style.display === 'flex') {
         closeModal();
+        // وقتی مودال بسته شد، state رو به حالت قبل برمی‌گردونیم
         return;
     }
+
     const customerPage = document.getElementById('customerPage');
     const listPage = document.getElementById('customerListPage');
     const statsPage = document.getElementById('statsPage');
-    
+
     if (!customerPage.classList.contains('hidden')) {
         goBackFromCustomer();
         return;
@@ -31,4 +640,13 @@ window.addEventListener('load', function() {
     renderMain();
     updateTotalDebt();
 });
+
+// ===== امنیت =====
+function escapeHTML(value){
+    return String(value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+function escapeAttribute(value){ return escapeHTML(value); }
 </script>
+
+</body>
+</html>
