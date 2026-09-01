@@ -1,0 +1,7 @@
+
+# 3. کد HTML را در nano Paste کنید (با Ctrl+Shift+V)
+# 4. ذخیره: Ctrl+X، Y، Enter
+
+# 5. اجرا کنید
+python3 -m http.server 8080
+
